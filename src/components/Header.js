@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Header.css';
 
-const Header = ({ onOpenLogin }) => {
+const Header = ({ onOpenLogin, onOpenSidebar }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -32,8 +32,8 @@ const Header = ({ onOpenLogin }) => {
             <li className="nav-item"><a href="#accueil">ACCUEIL</a></li>
             {/* <li className="nav-item"><a href="#specialites">SPÉCIALITÉS</a></li> */}
             <li className="nav-item"><a href="#docteurs">DOCTEURS</a></li>
-            <li className="nav-item"><a href="#apropos">À PROPOS</a></li>
-            <li className="nav-item"><a href="#blog">BLOG</a></li>
+           <li className="nav-item"><a href="#apropos" onClick={(e) => { e.preventDefault(); onOpenSidebar('apropos'); }}>À PROPOS</a></li>
+            <li className="nav-item"><a href="#blog" onClick={(e) => { e.preventDefault(); onOpenSidebar('blog'); }}>BLOG</a></li>
             <li className="nav-item">
               <a href="#login" className="session-btn" onClick={handleLoginClick}>
                 OUVRIR UNE SESSION

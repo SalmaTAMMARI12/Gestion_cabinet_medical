@@ -2,7 +2,7 @@
 export const colors = {
   // Couleurs principales turquoise/teal
   primary: '#3EAEB1',
-  primaryLight: '#61BACA',
+  primaryLight: '#2a8b9cff',
   primaryDark: '#1D837F',
   
   // Couleurs d'accent

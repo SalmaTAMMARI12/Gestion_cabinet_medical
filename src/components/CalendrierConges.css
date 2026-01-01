@@ -1,0 +1,317 @@
+.calendrier-conges {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Header */
+.calendrier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(62, 174, 177, 0.1);
+}
+
+.calendrier-header h2 {
+  font-size: 24px;
+  color: #1F2937;
+  margin: 0 0 5px 0;
+  font-weight: 700;
+}
+
+.calendrier-header p {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 0;
+}
+
+.calendrier-nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-month-btn {
+  width: 40px;
+  height: 40px;
+  background: rgba(62, 174, 177, 0.1);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.nav-month-btn:hover {
+  background: #3EAEB1;
+}
+
+.nav-month-btn:hover svg {
+  stroke: white;
+}
+
+.nav-month-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: #3EAEB1;
+  transition: stroke 0.3s;
+}
+
+.current-month {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1F2937;
+  min-width: 200px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+/* Légende */
+.calendrier-legend {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: rgba(62, 174, 177, 0.05);
+  border-radius: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.legend-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.legend-dot.available {
+  background: #10B981;
+}
+
+.legend-dot.conge {
+  background: #EF4444;
+}
+
+.legend-dot.today {
+  background: #3EAEB1;
+  border: 2px solid #1D837F;
+}
+
+/* Tableau */
+.calendrier-table {
+  margin-bottom: 30px;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+}
+
+.calendrier-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendrier-table th {
+  padding: 15px;
+  background: #F9FAFB;
+  border-bottom: 2px solid #E5E7EB;
+  font-weight: 600;
+  color: #1F2937;
+  font-size: 13px;
+}
+
+.calendrier-table th.date-column {
+  width: 120px;
+  text-align: left;
+}
+
+.medecin-header-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.medecin-avatar {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #3EAEB1, #61BACA);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.medecin-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.medecin-info strong {
+  font-size: 14px;
+  color: #1F2937;
+}
+
+.medecin-info span {
+  font-size: 11px;
+  color: #6B7280;
+}
+
+.calendrier-table tbody tr {
+  border-bottom: 1px solid #E5E7EB;
+  transition: background 0.2s;
+}
+
+.calendrier-table tbody tr:hover {
+  background: rgba(62, 174, 177, 0.02);
+}
+
+.calendrier-table tbody tr.today-row {
+  background: rgba(62, 174, 177, 0.08);
+}
+
+.date-cell {
+  padding: 12px 15px;
+  background: #F9FAFB;
+  font-weight: 600;
+}
+
+.date-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.day-name {
+  font-size: 11px;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+.day-num {
+  font-size: 16px;
+  color: #1F2937;
+}
+
+.status-cell {
+  padding: 12px;
+  text-align: center;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.available-badge {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+.conge-badge {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+/* Congés à venir */
+.conges-a-venir {
+  background: #F9FAFB;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.conges-a-venir h3 {
+  font-size: 18px;
+  color: #1F2937;
+  margin: 0 0 15px 0;
+  font-weight: 700;
+}
+
+.conges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.conge-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  border-left: 3px solid #EF4444;
+}
+
+.conge-medecin {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 180px;
+}
+
+.mini-avatar {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #3EAEB1, #61BACA);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.conge-dates {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6B7280;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.conge-dates svg {
+  width: 16px;
+  height: 16px;
+}
+
+.conge-motif {
+  margin-left: auto;
+  padding: 6px 12px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .calendrier-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}

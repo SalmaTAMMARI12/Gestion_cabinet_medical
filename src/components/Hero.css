@@ -1,13 +1,11 @@
 .hero {
   margin-top: 80px;
   position: relative;
-  min-height: calc(100vh - 80px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 60px 20px;
+  padding: 30px 20px 50px;
 }
-
 .hero-content {
   position: relative;
   z-index: 1;
@@ -138,4 +136,21 @@
   .cta-card {
     padding: 30px 20px;
   }
+}
+.cta-badge {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, rgba(62, 174, 177, 0.1), rgba(97, 186, 202, 0.1));
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: 1px solid rgba(62, 174, 177, 0.3);
+}
+
+.cta-card:hover .cta-badge {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
