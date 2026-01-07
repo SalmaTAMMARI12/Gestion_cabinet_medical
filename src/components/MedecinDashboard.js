@@ -1,154 +1,154 @@
 import React, { useState } from 'react';
 import './MedecinDashboard.css';
+import MesConges from './MesConges'; 
+import VisiteMedicaleModal from './VisiteMedicaleModal';
 
 const MedecinDashboard = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('planning');
+  const [searchTerm, setSearchTerm] = useState(''); 
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null);
 
-  // Données de démonstration
-  const mesPatients = [
-    { id: 1, nom: 'Alami Ahmed', prochainRDV: '2024-12-30 10:00', statut: 'Actif' },
-    { id: 2, nom: 'Benali Sara', prochainRDV: '2024-12-31 14:00', statut: 'Actif' },
-    { id: 3, nom: 'Chakir Mohamed', prochainRDV: '2025-01-02 09:00', statut: 'Actif' }
+  const today = new Date().toLocaleDateString('fr-FR', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long' 
+  });
+
+  const [patientsList] = useState([
+    { id: 1, id_patient: 'P001', id_dossier: '2026-001', patient: 'Ahmed Alami', cin: 'BE123456', derniereVisite: '07 Janvier 2026', status: 'En cours' },
+    { id: 2, id_patient: 'P002', id_dossier: '2026-002', patient: 'Sara Benali', cin: 'CD987654', derniereVisite: '05 Janvier 2026', status: 'Terminé' },
+  ]);
+
+  const planningData = [
+    { id: 1, id_patient: 'P001', id_dossier: '2026-001', heure: '09:00', patient: 'Ahmed Alami', type: 'Consultation générale', status: 'Confirmé' },
+    { id: 2, id_patient: 'P002', id_dossier: '2026-002', heure: '10:30', patient: 'Sara Benali', type: 'Électrocardiogramme (ECG)', status: 'En attente' }
   ];
 
-  const rdvAujourdhui = [
-    { heure: '09:00', patient: 'Alami Ahmed', type: 'Consultation', statut: 'confirme' },
-    { heure: '10:30', patient: 'Benali Sara', type: 'Contrôle', statut: 'confirme' },
-    { heure: '14:00', patient: 'Chakir Mohamed', type: 'Consultation', statut: 'en_attente' }
-  ];
+  const handleOpenDossier = (patientInfo) => {
+    setSelectedPatient({
+      nom: patientInfo.patient,
+      id_patient: patientInfo.id_patient,
+      id_dossier: patientInfo.id_dossier
+    });
+    setIsModalOpen(true);
+  };
+
+  const filteredPatients = patientsList.filter(p => 
+    p.patient.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    p.cin.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="medecin-dashboard">
-      {/* Sidebar */}
       <aside className="medecin-sidebar">
-        <div className="medecin-logo">
-          <div className="logo-icon">
-            <svg viewBox="0 0 24 24" fill="white">
-              <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-              <path d="M9 12l2 2 4-4"/>
-            </svg>
+        <div className="medecin-logo-section">
+          <div className="logo-box-turquoise">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+               <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+             </svg>
           </div>
-          <span>Espace Médecin</span>
+          <div className="logo-text-admin">Espace<br/><span>Médecin</span></div>
         </div>
 
         <nav className="medecin-nav">
-          <button 
-            className={`nav-btn ${activeTab === 'planning' ? 'active' : ''}`}
-            onClick={() => setActiveTab('planning')}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8" y1="2" x2="8" y2="6"/>
-              <line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            Mon Planning
-          </button>
-
-          <button 
-            className={`nav-btn ${activeTab === 'patients' ? 'active' : ''}`}
-            onClick={() => setActiveTab('patients')}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-            </svg>
-            Mes Patients
-          </button>
-
-          <button 
-            className={`nav-btn ${activeTab === 'conges' ? 'active' : ''}`}
-            onClick={() => setActiveTab('conges')}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            Mes Congés
-          </button>
+          <button className={`nav-item-admin ${activeTab === 'planning' ? 'active' : ''}`} onClick={() => setActiveTab('planning')}>Mon Planning</button>
+          <button className={`nav-item-admin ${activeTab === 'patients' ? 'active' : ''}`} onClick={() => setActiveTab('patients')}>Mes Patients</button>
+          <button className={`nav-item-admin ${activeTab === 'conges' ? 'active' : ''}`} onClick={() => setActiveTab('conges')}>Mes Congés</button>
         </nav>
 
-        <button className="logout-btn" onClick={onLogout}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-            <polyline points="16 17 21 12 16 7"/>
-            <line x1="21" y1="12" x2="9" y2="12"/>
-          </svg>
-          Déconnexion
+        <button className="btn-logout-admin" onClick={onLogout}>
+           <span style={{marginRight: '8px'}}>↳</span> Déconnexion
         </button>
       </aside>
 
-      {/* Main Content */}
-      <main className="medecin-main">
-        <header className="medecin-header">
-          <div>
-            <h1>Bienvenue, Dr. {user?.nom_utilisateur || user?.nom}</h1>
-            <p>Aujourd'hui : {new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+      <main className="medecin-main-content">
+        <header className="medecin-header-top">
+          <div className="header-left">
+            <h1 className="welcome-title">Bienvenue, {user?.nom || "Benali"}</h1>
+            <p className="current-date">Aujourd'hui : {today}</p>
           </div>
-          <div className="header-stats">
-            <div className="stat-mini">
-              <span className="stat-number">{rdvAujourdhui.length}</span>
-              <span className="stat-label">RDV aujourd'hui</span>
-            </div>
-            <div className="stat-mini">
-              <span className="stat-number">{mesPatients.length}</span>
-              <span className="stat-label">Patients suivis</span>
-            </div>
-          </div>
+
         </header>
 
-        <div className="medecin-content">
+        <div className="content-container">
           {activeTab === 'planning' && (
-            <div className="planning-section">
-              <h2>Planning du jour</h2>
-              <div className="rdv-timeline">
-                {rdvAujourdhui.map((rdv, index) => (
-                  <div key={index} className="rdv-item">
-                    <div className="rdv-time">{rdv.heure}</div>
-                    <div className="rdv-details">
-                      <h4>{rdv.patient}</h4>
-                      <p>{rdv.type}</p>
-                      <span className={`rdv-status ${rdv.statut}`}>
-                        {rdv.statut === 'confirme' ? 'Confirmé' : 'En attente'}
-                      </span>
+             <div className="planning-grid-container">
+                <h2 className="section-subtitle">Planning du jour</h2>
+                <div className="planning-list">
+                  {planningData.map((rdv) => (
+                    <div key={rdv.id} className="rdv-card-admin">
+                      <div className="rdv-time-info"><span className="rdv-hour">{rdv.heure}</span></div>
+                      <div className="rdv-patient-info">
+                        <h4>{rdv.patient}</h4>
+                        <p>{rdv.type}</p>
+                      </div>
+                      <div className={`rdv-status-badge ${rdv.status === 'Confirmé' ? 'confirmed' : 'pending'}`}>{rdv.status}</div>
+                      <div className="rdv-actions">
+                        <button className="btn-dossier-dark" onClick={() => handleOpenDossier(rdv)}>Commencer visite</button>
+                      </div>
                     </div>
-                    <button className="rdv-action">Voir dossier</button>
-                  </div>
-                ))}
-              </div>
-            </div>
+                  ))}
+                </div>
+             </div>
           )}
 
           {activeTab === 'patients' && (
-            <div className="patients-section">
-              <h2>Mes Patients</h2>
-              <div className="patients-grid">
-                {mesPatients.map(patient => (
-                  <div key={patient.id} className="patient-card-medecin">
-                    <div className="patient-avatar-medecin">
-                      {patient.nom.split(' ').map(n => n[0]).join('')}
+            <div className="patients-page-container">
+                <div className="page-header-actions">
+                    <h2 className="section-subtitle">Base Patients</h2>
+                    <div className="search-bar-container">
+                        <span className="search-icon">🔍</span>
+                        <input 
+                          type="text" 
+                          placeholder="Rechercher par nom ou CIN..." 
+                          className="patient-search-input"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
-                    <div className="patient-info-medecin">
-                      <h3>{patient.nom}</h3>
-                      <p>Prochain RDV: {patient.prochainRDV}</p>
-                      <span className="patient-status">{patient.statut}</span>
-                    </div>
-                    <button className="btn-dossier">Voir dossier</button>
-                  </div>
-                ))}
-              </div>
+                </div>
+
+                <div className="patients-list-wrapper">
+                    <table className="patients-table">
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>CIN</th>
+                                <th>Dernière Visite</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredPatients.map((p) => (
+                                <tr key={p.id}>
+                                    <td>
+                                        <div className="patient-info-cell">
+                                            <div className="avatar-circle">{p.patient.substring(0, 2).toUpperCase()}</div>
+                                            <span className="patient-name">{p.patient}</span>
+                                        </div>
+                                    </td>
+                                    <td><span className="id-badge">{p.cin}</span></td>
+                                    <td>{p.derniereVisite}</td>
+                                    <td><span className={`status-tag ${p.status === 'En cours' ? 'tag-active' : ''}`}>{p.status}</span></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
           )}
 
-          {activeTab === 'conges' && (
-            <div className="conges-section">
-              <h2>Demandes de Congé</h2>
-              <button className="btn-demander">+ Demander un congé</button>
-              <p style={{ marginTop: '20px', color: '#6B7280' }}>Aucune demande de congé en cours</p>
-            </div>
-          )}
+          {activeTab === 'conges' && <MesConges />}
         </div>
       </main>
+
+      <VisiteMedicaleModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        patient={selectedPatient}
+      />
     </div>
   );
 };

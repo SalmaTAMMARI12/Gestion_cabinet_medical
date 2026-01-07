@@ -8,6 +8,8 @@ import LoginModal from './components/LoginModal';
 import Particles from './components/Particles';
 import AdminDashboard from './components/AdminDashboard';
 import PatientDashboard from './components/PatientDashboard';
+// AJOUT ICI :
+import SecretaireDashboard from './components/SecretaireDashboard';
 
 function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -83,23 +85,22 @@ function App() {
       }} />;
     }
     
-    // Secrétaire
+    // Secrétaire (MODIFIÉ ICI)
     if (currentUser.roles?.includes('secretaire')) {
-      console.log('→ Affichage AdminDashboard (secrétaire)');
-      return <AdminDashboard user={currentUser} onLogout={() => {
+      console.log('→ Affichage SecretaireDashboard');
+      return <SecretaireDashboard user={currentUser} onLogout={() => {
         setIsAdminView(false);
         setCurrentUser(null);
       }} />;
     }
 
     // Patient
-    // Patient
-if (currentUser.roles?.includes('patient')) {
-  return <PatientDashboard user={currentUser} onLogout={() => {
-    setIsAdminView(false);
-    setCurrentUser(null);
-  }} />;
-}
+    if (currentUser.roles?.includes('patient')) {
+      return <PatientDashboard user={currentUser} onLogout={() => {
+        setIsAdminView(false);
+        setCurrentUser(null);
+      }} />;
+    }
     
   } else {
     console.log('❌ Condition NON remplie - Affichage page accueil');

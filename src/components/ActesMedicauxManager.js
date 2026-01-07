@@ -36,7 +36,10 @@ const ActesMedicauxManager = ({ actes, onAdd, onUpdate, onDelete }) => {
         <h3>Catalogue des Actes Médicaux</h3>
         <button 
           className="btn-add-acte" 
-          onClick={() => setShowAddForm(!showAddForm)}
+          onClick={() => {
+            setShowAddForm(!showAddForm);
+            if (showAddForm) setEditingActe(null); // Reset si on annule
+          }}
         >
           {showAddForm ? 'Annuler' : '+ Ajouter un acte'}
         </button>
@@ -65,18 +68,23 @@ const ActesMedicauxManager = ({ actes, onAdd, onUpdate, onDelete }) => {
       )}
 
       <div className="actes-list">
-        {actes.map(acte => (
-          <div key={acte.id_acte} className="acte-card">
-            <div className="acte-info">
-              <h4>{acte.nom_acte}</h4>
-              <span className="acte-tarif">{acte.tarif} MAD</span>
+        {/* Ajout du point d'interrogation pour éviter les erreurs si actes est null */}
+        {actes?.length > 0 ? (
+          actes.map(acte => (
+            <div key={acte.id_acte} className="acte-card">
+              <div className="acte-info">
+                <h4>{acte.nom_acte}</h4>
+                <span className="acte-tarif">{acte.tarif} MAD</span>
+              </div>
+              <div className="acte-actions">
+                <button onClick={() => handleEdit(acte)} title="Modifier">✏️</button>
+                <button onClick={() => onDelete(acte.id_acte)} title="Supprimer">🗑️</button>
+              </div>
             </div>
-            <div className="acte-actions">
-              <button onClick={() => handleEdit(acte)}>✏️</button>
-              <button onClick={() => onDelete(acte.id_acte)}>🗑️</button>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="no-data">Aucun acte médical enregistré.</p>
+        )}
       </div>
     </div>
   );
